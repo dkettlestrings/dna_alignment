@@ -1,4 +1,6 @@
-package inmemory
+package common
+
+import inmemory.DNASequence
 
 import scala.util.Random
 

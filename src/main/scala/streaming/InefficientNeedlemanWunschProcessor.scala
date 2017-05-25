@@ -1,14 +1,15 @@
 package streaming
 
 import akka.actor.Actor
-import inmemory.{NeedlemanWunchConfig, NeedlemanWunsch, Nucleotide}
+import common.{NeedlemanWunchConfig, Nucleotide}
+import inmemory.InMemoryNeedlemanWunsch
 
 import scala.collection.mutable.MutableList
 
 /**
   * Created by dkettlestrings on 5/24/17.
   */
-class NeedlemanWunschProcessor(conf: NeedlemanWunchConfig) extends Actor {
+class InefficientNeedlemanWunschProcessor(conf: NeedlemanWunchConfig) extends Actor {
 
   require(conf.gap < 0)
   require(conf.mismatch < 0)
@@ -28,7 +29,7 @@ class NeedlemanWunschProcessor(conf: NeedlemanWunchConfig) extends Actor {
     case (1, "close") => seq1Active = false
     case (2, "close") => seq2Active = false
     case "isActive" => sender ! (seq1Active || seq2Active)
-    case "result" => sender ! NeedlemanWunsch.inMem(sequence1.toIndexedSeq, sequence2.toIndexedSeq, conf)
+    case "result" => sender ! InMemoryNeedlemanWunsch.inMem(sequence1.toIndexedSeq, sequence2.toIndexedSeq, conf)
 
   }
 

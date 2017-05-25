@@ -1,11 +1,12 @@
 package inmemory
 
+import common._
 import org.scalatest.FunSuite
 
 /**
   * Created by dkettlestrings on 5/24/17.
   */
-class TestNeedlemanWunsch extends FunSuite {
+class TestInMemoryNeedlemanWunsch extends FunSuite {
 
   test("works for sequences of the same size with a diagonal trace") {
 
@@ -14,7 +15,7 @@ class TestNeedlemanWunsch extends FunSuite {
 
     val conf = NeedlemanWunchConfig(matching = 5, mismatch = -1, gap = -2)
 
-    val result = NeedlemanWunsch.inMem(seq1, seq2, conf)
+    val result = InMemoryNeedlemanWunsch.inMem(seq1, seq2, conf)
 
     val expectedScores = Array(
       Array(0, -2, -4, -6, -8, -10),
@@ -50,7 +51,7 @@ class TestNeedlemanWunsch extends FunSuite {
 
     val conf = NeedlemanWunchConfig(matching = 1, mismatch = -1, gap = -1)
 
-    val result = NeedlemanWunsch.inMem(seq1, seq2, conf)
+    val result = InMemoryNeedlemanWunsch.inMem(seq1, seq2, conf)
 
     assert(result.report == "G-ATTACA\nGCA-TGCU")
 
@@ -64,7 +65,7 @@ class TestNeedlemanWunsch extends FunSuite {
 
     val conf = NeedlemanWunchConfig(matching = 5, mismatch = -1, gap = -2)
 
-    val result = NeedlemanWunsch.inMem(seq1, seq2, conf)
+    val result = InMemoryNeedlemanWunsch.inMem(seq1, seq2, conf)
 
     assert(result.report == "-ATAG\nTATCG")
   }

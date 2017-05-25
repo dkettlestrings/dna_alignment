@@ -1,11 +1,13 @@
 package inmemory
 
+import common._
+
 /**
   * Created by dkettlestrings on 5/24/17.
   */
-object NeedlemanWunsch {
+object InMemoryNeedlemanWunsch {
 
-  def inMem(seq1: DNASequence, seq2: DNASequence, conf: NeedlemanWunchConfig): NeedlemanWunchResult = {
+  def inMem(seq1: DNASequence, seq2: DNASequence, conf: NeedlemanWunchConfig): InMemoryNeedlemanWunchResult = {
 
     require(conf.gap < 0)
     require(conf.mismatch < 0)
@@ -24,7 +26,7 @@ object NeedlemanWunsch {
     (1 to seq1.length).foreach(i => traceback(i)(0) = Up)
 
     (1 to seq2.length).foreach(j => scores(0)(j) = conf.gap * j)
-    (1 to seq2.length).foreach(j => traceback(0)(j) = Left)
+    (1 to seq2.length).foreach(j => traceback(0)(j) = common.Left)
 
     // Go through each row and column and update the score and traceback matrix
     for {
@@ -50,7 +52,7 @@ object NeedlemanWunsch {
       else if(biggerThan(leftScore)(diagonalScore, upScore)) {
 
         scores(row)(column) = leftScore
-        traceback(row)(column) = Left
+        traceback(row)(column) = common.Left
       }
       else {
 
@@ -63,7 +65,7 @@ object NeedlemanWunsch {
     def biggerThan(a: Int)(b: Int, c: Int): Boolean = a >= b && a>=c
 
 
-    NeedlemanWunchResult(scores, traceback, TracingInterpreter.interpret(seq1, seq2, traceback))
+    InMemoryNeedlemanWunchResult(scores, traceback, TracingInterpreter.interpret(seq1, seq2, traceback))
 
 
   }

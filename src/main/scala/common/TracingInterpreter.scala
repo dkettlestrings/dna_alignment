@@ -1,4 +1,6 @@
-package inmemory
+package common
+
+import inmemory.DNASequence
 
 import scala.annotation.tailrec
 import scala.collection.mutable.ArrayBuffer
@@ -24,7 +26,7 @@ object TracingInterpreter {
     val event = traces.last.last
     event match {
       case Done => acc
-      case Left => getEvents(dropLastColumn(traces), acc :+ Left)
+      case common.Left => getEvents(dropLastColumn(traces), acc :+ common.Left)
       case Up => getEvents(dropLastRow(traces), acc :+ Up)
       case Diagonal => getEvents(dropLastRow(dropLastColumn(traces)), acc:+ Diagonal)
 
@@ -60,20 +62,20 @@ object TracingInterpreter {
 
       case Diagonal =>
 
-        top = top + Nucleotide.asString(seq2(seq2Index))
-        bottom = bottom + Nucleotide.asString(seq1(seq1Index))
+        top = top + seq2(seq2Index).asString
+        bottom = bottom + seq1(seq1Index).asString
         seq1Index += 1
         seq2Index += 1
 
       case Up =>
 
         top = top + "-"
-        bottom = bottom + Nucleotide.asString(seq1(seq1Index))
+        bottom = bottom + seq1(seq1Index).asString
         seq1Index += 1
 
-      case Left =>
+      case common.Left =>
 
-        top = top + Nucleotide.asString(seq2(seq2Index))
+        top = top + seq2(seq2Index).asString
         bottom = bottom + "-"
         seq2Index +=1
 

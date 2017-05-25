@@ -1,4 +1,4 @@
-package inmemory
+package common
 
 /**
   * Created by dkettlestrings on 5/24/17.

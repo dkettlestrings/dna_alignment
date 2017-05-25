@@ -3,6 +3,7 @@ package streaming
 import akka.actor.{ActorSystem, Props}
 import akka.pattern.ask
 import akka.util.Timeout
+import common._
 import inmemory._
 import org.scalatest.FunSuite
 
@@ -13,7 +14,7 @@ import language.postfixOps
 /**
   * Created by dkettlestrings on 5/24/17.
   */
-class NeedlemanWunschProcessorTest extends FunSuite {
+class TestInefficientNeedlemanWunschProcessor extends FunSuite {
 
   implicit val timeout = Timeout(45 seconds)
 
@@ -23,7 +24,7 @@ class NeedlemanWunschProcessorTest extends FunSuite {
     val system = ActorSystem("NeedlemanWunschProcessorTest")
     val conf = NeedlemanWunchConfig(matching = 5, mismatch = -1, gap = -2)
 
-    val processor = system.actorOf(Props(classOf[NeedlemanWunschProcessor], conf))
+    val processor = system.actorOf(Props(classOf[InefficientNeedlemanWunschProcessor], conf))
 
     val stream1 = system.actorOf(Props(classOf[FixedSequenceGenerator], processor, 1, IndexedSeq(T, C, A, T, A)))
     val stream2 = system.actorOf(Props(classOf[FixedSequenceGenerator], processor, 2, IndexedSeq(T, C, C, T, A)))
@@ -31,10 +32,10 @@ class NeedlemanWunschProcessorTest extends FunSuite {
     stream1 ! "go"
     stream2 ! "go"
 
-    def poll(): NeedlemanWunchResult = {
+    def poll(): InMemoryNeedlemanWunchResult = {
 
       val isActive = Await.result(processor ? "isActive", Duration(5, "seconds")).asInstanceOf[Boolean]
-      if(isActive) {Thread.sleep(5000);poll()} else Await.result(processor ? "result", Duration(45, "seconds")).asInstanceOf[NeedlemanWunchResult]
+      if(isActive) {Thread.sleep(5000);poll()} else Await.result(processor ? "result", Duration(45, "seconds")).asInstanceOf[InMemoryNeedlemanWunchResult]
     }
 
     val result = poll()
@@ -49,11 +50,11 @@ class NeedlemanWunschProcessorTest extends FunSuite {
     )
 
     val expectedTraceback = Array(
-      Array(Done, Left, Left, Left, Left, Left),
-      Array(Up, Diagonal, Left, Left, Diagonal, Left),
-      Array(Up, Up, Diagonal, Diagonal, Left, Left),
+      Array(Done, common.Left, common.Left, common.Left, common.Left, common.Left),
+      Array(Up, Diagonal, common.Left, common.Left, Diagonal, common.Left),
+      Array(Up, Up, Diagonal, Diagonal, common.Left, common.Left),
       Array(Up, Up, Up, Diagonal, Diagonal, Diagonal),
-      Array(Up, Diagonal, Up, Diagonal, Diagonal, Left),
+      Array(Up, Diagonal, Up, Diagonal, Diagonal, common.Left),
       Array(Up, Up, Up, Diagonal, Up, Diagonal)
     )
 

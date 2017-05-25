@@ -1,6 +1,6 @@
-package inmemory
+package common
 
-import System.currentTimeMillis
+import java.lang.System.currentTimeMillis
 
 /**
   *

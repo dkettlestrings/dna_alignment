@@ -1,6 +1,7 @@
 package streaming
 
 import akka.actor.Actor
+import common._
 import inmemory._
 
 import scala.collection.mutable
@@ -9,7 +10,7 @@ import scala.collection.mutable.ArrayBuffer
 /**
   * Created by dkettlestrings on 5/25/17.
   */
-class FancyNeedlemanWunsch(conf: NeedlemanWunchConfig) extends Actor {
+class OptimizedNeedlemanWunschProcessor(conf: NeedlemanWunchConfig) extends Actor {
 
   case class Entry(score: Int, traceback: List[TracebackEntry])
 
@@ -59,7 +60,7 @@ class FancyNeedlemanWunsch(conf: NeedlemanWunchConfig) extends Actor {
       }
       else if(leftScore >= diagonalScore && leftScore >= upScore) {
 
-        Entry(leftScore, Left +: newRow(i - 1).traceback)
+        Entry(leftScore, common.Left +: newRow(i - 1).traceback)
       }
       else {
 
@@ -103,7 +104,7 @@ class FancyNeedlemanWunsch(conf: NeedlemanWunchConfig) extends Actor {
       }
       else if(leftScore >= diagonalScore && leftScore >= upScore) {
 
-        Entry(leftScore, Left +: entry.traceback)
+        Entry(leftScore, common.Left +: entry.traceback)
       }
       else {
 

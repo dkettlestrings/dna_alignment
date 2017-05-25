@@ -1,7 +1,8 @@
 package streaming
 
 import akka.actor.{Actor, ActorRef}
-import inmemory.{DNASequence, Nucleotide}
+import common.Nucleotide
+import inmemory.DNASequence
 
 import scala.util.Random
 
