@@ -5,6 +5,7 @@ version := "1.0"
 scalaVersion := "2.12.2"
 
 libraryDependencies ++= Seq(
-  "org.scalatest" %% "scalatest" % "3.0.0" % "test"
+  "org.scalatest" %% "scalatest" % "3.0.0" % "test",
+  "com.typesafe.akka" %% "akka-actor" % "2.5.2"
 )
         
